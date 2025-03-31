@@ -6,7 +6,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // SAJÁT API KULCS BEÉPÍTVE
-const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = "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";
 
 app.use(cors());
 app.use(express.json());
