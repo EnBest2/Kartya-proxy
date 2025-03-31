@@ -13,13 +13,16 @@ app.use(express.json());
 
 app.post("/generate", async (req, res) => {
   try {
-    const { prompt } = req.body;
+    const { tetel, tantargy } = req.body;
+    const prompt = `Kérlek készíts tanulókártyákat a következő érettségi tételből (${tantargy}): ${tetel}`;
 
     const response = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       {
         model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: prompt }],
+        messages: [
+          { role: "user", content: prompt }
+        ],
         max_tokens: 1000,
       },
       {
@@ -30,9 +33,13 @@ app.post("/generate", async (req, res) => {
       }
     );
 
-    res.json(response.data);
+    // Egyszerűsített válasz visszaadása kártyák formájában
+    const valasz = response.data.choices?.[0]?.message?.content || "Nem sikerült válasz.";
+    const kartyak = valasz.split("\n").filter(line => line.trim().length > 0);
+    res.json({ kartyak });
+
   } catch (error) {
-    console.error("Hiba az OpenAI hívásnál:", error.message);
+    console.error("Hiba az OpenAI hívás során:", error.message);
     res.status(500).json({ error: "Hiba történt a generálás során." });
   }
 });
