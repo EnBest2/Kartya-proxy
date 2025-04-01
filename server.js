@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
@@ -32,9 +31,8 @@ app.post("/generate", async (req, res) => {
     );
 
     const valasz = response.data.choices?.[0]?.message?.content || "Nem sikerült válasz.";
-    const kartyak = valasz.split("\n").filter(line => line.trim().length > 0);
+    const kartyak = valasz.split("\n").filter((line) => line.trim().length > 0);
     res.json({ kartyak });
-
   } catch (error) {
     console.error("Hiba az OpenAI hívás során:", error.message);
     res.status(500).json({ error: "Hiba történt a generálás során." });
