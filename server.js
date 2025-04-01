@@ -1,12 +1,11 @@
+require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
-require("dotenv").config(); // Ez kell az env használatához
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Az API kulcsot az env-ből vesszük
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 app.use(cors());
@@ -37,7 +36,7 @@ app.post("/generate", async (req, res) => {
     res.json({ kartyak });
 
   } catch (error) {
-    console.error("Hiba az OpenAI hívásnál:", error.message);
+    console.error("Hiba az OpenAI hívás során:", error.message);
     res.status(500).json({ error: "Hiba történt a generálás során." });
   }
 });
